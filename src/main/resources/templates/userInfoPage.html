@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>User form</title>
+</head>
+<body>
+
+<h2>Add / Edit user</h2>
+
+<form th:action="${user.id} == null ? @{/createUser} : @{/updateUser}" th:object="${user}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <div>
+        <label>name</label>
+        <input type="text" th:field="*{name}" />
+    </div>
+    <br/>
+    <div>
+        <label>age</label>
+        <input type="text" th:field="*{age}" />
+    </div>
+    <br/>
+    <div>
+        <label>email</label>
+        <input type="text" th:field="*{email}" />
+    </div>
+    <br/>
+
+    <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <input type="submit" value="Save" />
+    <button type="button" th:onclick="|window.location.href='@{/userAll}'|">Cancel</button>
+</form>
+
+</body>
+</html>
