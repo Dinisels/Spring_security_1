@@ -1,14 +1,10 @@
 package ru.kata.spring.boot_security.demo.model;
 
-
-//import jakarta.persistence.*;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
-
 
 @Entity
 @Table(name = "users")
@@ -18,21 +14,23 @@ import java.util.*;
 )
 public class User implements UserDetails {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id ;
+    private Long id;
 
     @Column(name = "name")
     private String name;
+
     @Column(name = "age")
     private int age;
-    @Column(name = "email")
+
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
-    @Column(name = "password")
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER) // для авторизации часто удобнее EAGER
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -40,8 +38,7 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-
-
+    // Конструкторы остаются без изменений
     public User(String name, int age, String email, String password) {
         this.name = name;
         this.age = age;
@@ -50,7 +47,6 @@ public class User implements UserDetails {
     }
 
     public User() {
-
     }
 
     @Override
@@ -83,11 +79,12 @@ public class User implements UserDetails {
         return true;
     }
 
-    public Integer getId() {
+    // Геттеры и сеттеры
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -131,6 +128,14 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    // Вспомогательный метод для работы с ролями в Thymeleaf
+    public String getRolesAsString() {
+        return roles.stream()
+                .map(Role::getName)
+                .reduce((r1, r2) -> r1 + ", " + r2)
+                .orElse("");
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -142,4 +147,3 @@ public class User implements UserDetails {
                 '}';
     }
 }
-

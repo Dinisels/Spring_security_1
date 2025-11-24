@@ -1,25 +1,45 @@
 package ru.kata.spring.boot_security.demo.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.model.Role;
 
 import java.util.List;
 
-public class RoleServiceImpl implements RoleService{
+@Service // ДОБАВЛЕНО
+public class RoleServiceImpl implements RoleService {
 
+    private final RoleDao roleDao; // ДОБАВЛЕНО
 
+    @Autowired // ДОБАВЛЕНО
+    public RoleServiceImpl(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Role> getRoles() {
-        return List.of();
+        return roleDao.getRoles(); // РЕАЛЬНАЯ РЕАЛИЗАЦИЯ
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Role getRoleByName(String name) {
-        return null;
+        return roleDao.getRoleByName(name); // РЕАЛЬНАЯ РЕАЛИЗАЦИЯ
     }
 
     @Override
+    @Transactional
     public void addRole(Role role) {
+        roleDao.addRole(role); // РЕАЛЬНАЯ РЕАЛИЗАЦИЯ
+    }
 
+    // ДОБАВЛЕН НОВЫЙ МЕТОД - для получения роли по ID
+    @Override
+    @Transactional(readOnly = true)
+    public Role getRoleById(Long id) {
+        return roleDao.getRoleById(id);
     }
 }

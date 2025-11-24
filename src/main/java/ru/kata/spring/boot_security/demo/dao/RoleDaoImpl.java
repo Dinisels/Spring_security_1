@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.dao;
 
+import org.springframework.stereotype.Repository; // ДОБАВЛЕНО
 import ru.kata.spring.boot_security.demo.model.Role;
 
 import javax.persistence.EntityManager;
@@ -7,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Repository // ДОБАВЛЕНО
 public class RoleDaoImpl implements RoleDao {
 
     @PersistenceContext
@@ -27,5 +29,11 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public void addRole(Role role) {
         em.persist(role);
+    }
+
+    // ДОБАВЛЕН НОВЫЙ МЕТОД - для получения роли по ID
+    @Override
+    public Role getRoleById(Long id) {
+        return em.find(Role.class, id);
     }
 }
