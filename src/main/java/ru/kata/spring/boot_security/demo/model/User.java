@@ -55,12 +55,12 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles == null ? Collections.emptySet() : roles;
+        return getRoles();
     }
 
     @Override
     public String getUsername() {
-        return getName();
+        return getEmail();
     }
 
     @Override
