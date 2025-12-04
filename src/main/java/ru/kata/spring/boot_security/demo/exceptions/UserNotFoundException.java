@@ -1,7 +1,7 @@
 package ru.kata.spring.boot_security.demo.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
-    public UserNotFoundException(Long userId) { // Изменено с int на Long
+    public UserNotFoundException(Long userId) {
         super("User not found with id: " + userId);
     }
 

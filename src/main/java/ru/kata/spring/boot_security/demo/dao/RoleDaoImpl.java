@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-@Repository // ДОБАВЛЕНО
+@Repository
 public class RoleDaoImpl implements RoleDao {
 
     @PersistenceContext
@@ -31,7 +31,7 @@ public class RoleDaoImpl implements RoleDao {
         em.persist(role);
     }
 
-    // ДОБАВЛЕН НОВЫЙ МЕТОД - для получения роли по ID
+
     @Override
     public Role getRoleById(Long id) {
         return em.find(Role.class, id);

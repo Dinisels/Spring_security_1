@@ -29,7 +29,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUser(User user) {
-        // Убеждаемся, что объект attached перед merge
+
         if (!entityManager.contains(user)) {
             User attachedUser = entityManager.merge(user);
             entityManager.persist(attachedUser);
@@ -39,19 +39,19 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> getUserById(Long userId) { // Изменено с int на Long
+    public Optional<User> getUserById(Long userId) {
         User user = entityManager.find(User.class, userId);
         return Optional.ofNullable(user);
     }
 
     @Override
     public void deleteUser(User user) {
-        // Перед удалением нужно убедиться, что объект attached
+
         User attachedUser = entityManager.contains(user) ? user : entityManager.merge(user);
         entityManager.remove(attachedUser);
     }
 
-    // ДОБАВЛЕН НОВЫЙ МЕТОД - для UserDetailsService
+
     @Override
     public User findByEmail(String email) {
         TypedQuery<User> query = entityManager.createQuery(
@@ -60,9 +60,9 @@ public class UserDaoImpl implements UserDao {
         return query.getResultList().stream().findFirst().orElse(null);
     }
 
-    // ДОБАВЛЕН НОВЫЙ МЕТОД - для удобства
+
     @Override
-    public void deleteUserById(Long id) { // Изменено с int на Long
+    public void deleteUserById(Long id) {
         User user = entityManager.find(User.class, id);
         if (user != null) {
             entityManager.remove(user);

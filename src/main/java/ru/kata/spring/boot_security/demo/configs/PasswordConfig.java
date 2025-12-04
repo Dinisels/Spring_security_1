@@ -10,8 +10,6 @@ public class PasswordConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Используем NoOpPasswordEncoder для хранения паролей в открытом виде
         return NoOpPasswordEncoder.getInstance();
-        // return new BCryptPasswordEncoder(); // Закомментируйте эту строку
     }
 }

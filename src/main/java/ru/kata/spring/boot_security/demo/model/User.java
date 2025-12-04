@@ -38,7 +38,7 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    // Конструкторы остаются без изменений
+
     public User(String name, int age, String email, String password) {
         this.name = name;
         this.age = age;
@@ -79,7 +79,7 @@ public class User implements UserDetails {
         return true;
     }
 
-    // Геттеры и сеттеры
+
     public Long getId() {
         return id;
     }
@@ -128,7 +128,7 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    // Вспомогательный метод для работы с ролями в Thymeleaf
+
     public String getRolesAsString() {
         return roles.stream()
                 .map(Role::getName)

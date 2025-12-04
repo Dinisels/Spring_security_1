@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,10 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
-    private final RoleService roleService; // ДОБАВЛЕНО
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService) { // ДОБАВЛЕНО RoleService
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -26,40 +27,50 @@ public class AdminController {
     @GetMapping
     public String getAllUser(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("user", new User()); // ДОБАВЬТЕ ЭТУ СТРОЧКУ
+        model.addAttribute("user", new User());
         return "admin";
     }
 
-    @GetMapping("/new") // Изменено с "/addNewUser" на "/new"
+    @GetMapping("/new")
     public String addNewUser(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleService.getRoles()); // ДОБАВЛЕНО для выбора ролей
-        return "user-form"; // Изменено на "user-form"
+        model.addAttribute("allRoles", roleService.getRoles());
+        return "user-form";
     }
 
-    @PostMapping // Изменено с "/createUser" на корневой POST
+    @PostMapping
     public String createUser(@ModelAttribute("user") User user) {
         userService.createUser(user);
-        return "redirect:/admin"; // Изменено на "/admin"
+        return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit") // Изменено на RESTful стиль
-    public String updateUserForm(@PathVariable("id") Long id, Model model) { // Изменено с int на Long
+    @GetMapping("/{id}/edit")
+    public String updateUserForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("allRoles", roleService.getRoles()); // ДОБАВЛЕНО для выбора ролей
-        return "user-form"; // Изменено на "user-form"
+        model.addAttribute("allRoles", roleService.getRoles());
+        return "user-form";
     }
 
-    @PatchMapping("/{id}") // Изменено на RESTful стиль с PATCH
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) { // Изменено с int на Long
-        user.setId(id); // Устанавливаем ID из пути
+    @PatchMapping("/{id}")
+    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
+        user.setId(id);
         userService.updateUser(user);
-        return "redirect:/admin"; // Изменено на "/admin"
+        return "redirect:/admin";
     }
 
-    @DeleteMapping("/{id}") // Изменено на RESTful стиль с DELETE
-    public String deleteUser(@PathVariable("id") Long id) { // Изменено с int на Long
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
-        return "redirect:/admin"; // Изменено на "/admin"
+        return "redirect:/admin";
+    }
+
+    @ControllerAdvice
+    public class GlobalExceptionHandler {
+
+        @ExceptionHandler(Exception.class)
+        public ResponseEntity<String> handleAllExceptions(Exception ex) {
+            return ResponseEntity.status(500)
+                    .body("Произошла ошибка: " + ex.getMessage());
+        }
     }
 }

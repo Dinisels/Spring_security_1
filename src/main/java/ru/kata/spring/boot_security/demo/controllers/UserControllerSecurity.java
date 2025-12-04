@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserControllerSecurity {
 
     @GetMapping
-    public String userInfoSelf(Model model) { // Исправлено: добавлен Model и @GetMapping
-        // Получаем аутентифицированного пользователя
+    public String userInfoSelf(Model model) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("user", authentication.getPrincipal());
-        return "user-form"; // Изменено на "user" для соответствия MvcConfig
+        return "user-form";
     }
 }

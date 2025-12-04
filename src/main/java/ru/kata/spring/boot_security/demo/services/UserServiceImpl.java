@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void createUser(User user) {
-        // Шифруем пароль перед сохранением
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDAO.createUser(user);
     }
@@ -39,19 +39,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateUser(User user) {
-        // Получаем существующего пользователя для проверки пароля
+
         User existingUser = getUserById(user.getId());
 
-        // Если пароль не изменился, оставляем старый (зашифрованный)
+
         if (user.getPassword() == null || user.getPassword().isEmpty() ||
                 user.getPassword().equals(existingUser.getPassword())) {
             user.setPassword(existingUser.getPassword());
         } else {
-            // Если пароль изменился, шифруем новый
+
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        // Сохраняем роли из существующего пользователя, если они не установлены
+
         if (user.getRoles() == null || user.getRoles().isEmpty()) {
             user.setRoles(existingUser.getRoles());
         }
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
         userDAO.deleteUser(user);
     }
 
-    // ДОБАВЛЕН НОВЫЙ МЕТОД - для UserDetailsService
+
     @Override
     @Transactional(readOnly = true)
     public User findByEmail(String email) {

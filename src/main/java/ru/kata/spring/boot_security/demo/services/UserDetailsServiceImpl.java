@@ -21,13 +21,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Убедитесь, что метод findByEmail загружает роли
+
         User user = userDao.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("User not found: " + email);
         }
 
-        // Проверьте, что роли загружены
+
         System.out.println("Loaded user: " + user.getEmail() + " with roles: " + user.getRoles());
 
         return user;

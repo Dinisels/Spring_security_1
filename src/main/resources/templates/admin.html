@@ -11,8 +11,10 @@
 
     <!-- Информация о текущем пользователе -->
     <div class="alert alert-info">
-        Logged in as: <span th:text="${#authentication.name}"></span>
-        | Roles: <span th:text="${#authentication.authorities}"></span>
+        Logged in as:
+        <span th:text="${#authentication?.principal?.name ?: 'Guest'}"></span>
+        | Roles:
+        <span th:text="${#authentication?.authorities ?: 'No roles'}"></span>
     </div>
 
     <h2>Users List</h2>
@@ -51,6 +53,8 @@
 
     <div class="mt-3">
         <a th:href="@{/user}" class="btn btn-secondary">User Page</a>
+
+        <!-- Простая ссылка для логаута (GET запрос) -->
         <a th:href="@{/logout}" class="btn btn-outline-secondary">Logout</a>
     </div>
 </div>

@@ -8,12 +8,12 @@ import ru.kata.spring.boot_security.demo.model.Role;
 
 import java.util.List;
 
-@Service // ДОБАВЛЕНО
+@Service
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleDao roleDao; // ДОБАВЛЕНО
+    private final RoleDao roleDao;
 
-    @Autowired // ДОБАВЛЕНО
+    @Autowired
     public RoleServiceImpl(RoleDao roleDao) {
         this.roleDao = roleDao;
     }
@@ -21,22 +21,22 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(readOnly = true)
     public List<Role> getRoles() {
-        return roleDao.getRoles(); // РЕАЛЬНАЯ РЕАЛИЗАЦИЯ
+        return roleDao.getRoles();
     }
 
     @Override
     @Transactional(readOnly = true)
     public Role getRoleByName(String name) {
-        return roleDao.getRoleByName(name); // РЕАЛЬНАЯ РЕАЛИЗАЦИЯ
+        return roleDao.getRoleByName(name);
     }
 
     @Override
     @Transactional
     public void addRole(Role role) {
-        roleDao.addRole(role); // РЕАЛЬНАЯ РЕАЛИЗАЦИЯ
+        roleDao.addRole(role);
     }
 
-    // ДОБАВЛЕН НОВЫЙ МЕТОД - для получения роли по ID
+
     @Override
     @Transactional(readOnly = true)
     public Role getRoleById(Long id) {
